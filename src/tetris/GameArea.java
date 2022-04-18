@@ -27,7 +27,7 @@ public class GameArea extends JPanel
 		gridCellSize=20;
 		blocksFell = new ArrayList<TetrisBlock>();
 		
-		System.out.println("salut fdp");
+		System.out.println("salut gros fdp");
 		
 	}
 	
