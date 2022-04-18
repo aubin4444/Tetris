@@ -51,6 +51,34 @@ public class GameArea extends JPanel
 		{
 			return false;
 		}
+		
+		/*int[][] shape = block.getShape();
+		int w = block.getWidth();
+		int h = block.getHeight();
+		
+		for(int col = 0; col < w; col++) {
+			for(int row = h - 1; row >= 0; row--) {
+				if (shape[row][col] != 0)
+				{
+					int x = col + block.getX();
+					int y = row + block.getY();
+					if(fallenBlocks[y][x] != null)}
+			}
+		}*/
+		return true;
+	}
+	
+	private boolean checkLeft()
+	{
+		if(block.getLeftEdge() == 0)return false;
+		
+		return true;
+	}
+	
+	private boolean checkRight()
+	{
+		if(block.getRightEdge() == gridColumns)return false;
+		
 		return true;
 	}
 	
@@ -67,6 +95,39 @@ public class GameArea extends JPanel
 		return true;
 		
 	}
+	
+	public void moveBlockRight()
+	{
+		if(!checkRight())return;
+		
+		block.moveRight();
+		repaint();
+	}
+	
+	public void moveBlockLeft()
+	{
+		if(!checkLeft())return;
+
+		
+		block.moveLeft();
+		repaint();
+	}
+	
+	public void dropBlock()
+	{
+		while(checkBottom())
+		{
+			block.moveDown();
+		}
+		repaint();
+	}
+	
+	public void rotateBlock()
+	{
+		block.rotate();
+		repaint();
+	}
+	
 	private void drawBlock(Graphics g,TetrisBlock block)
 	{
 		Color c = block.getColor();
