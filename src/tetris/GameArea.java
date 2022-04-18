@@ -1,5 +1,6 @@
 package tetris;
 
+
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -26,7 +27,7 @@ public class GameArea extends JPanel
 		gridCellSize=20;
 		blocksFell = new ArrayList<TetrisBlock>();
 		
-		
+		System.out.println("Coucou");
 	}
 	
 	public void spawnBlock()
