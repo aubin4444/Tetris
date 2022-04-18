@@ -1,6 +1,5 @@
 package tetris;
 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -13,7 +12,7 @@ public class GameArea extends JPanel
 	private  int gridColumns;
 	private  int gridCellSize;
 	private TetrisBlock block;
-	private List<TetrisBlock> blocksFell;
+	private List<TetrisBlock> fallenBlocks;
 	private int i=0;
 	
 	
@@ -25,32 +24,26 @@ public class GameArea extends JPanel
 		gridRows=20;
 		gridColumns=10;
 		gridCellSize=20;
-		blocksFell = new ArrayList<TetrisBlock>();
+		fallenBlocks = new ArrayList<TetrisBlock>();
 		
-		System.out.println("salut gros fdp");
 		
 	}
 	
 	public void spawnBlock()
 	{
-		
-		System.out.println(i);
 		if(i!=0)
 		{
-			blocksFell.add(block);
-			if(i>1)
-			{
-				for(TetrisBlock elem: blocksFell)
-			       {
-			       	 System.out.println (elem);
-			       }
-			}
+			fallenBlocks.add(block);
 		}
+		
 		block = new TetrisBlock(new int[][]{{1,0},{1,0},{1,1}}, Color.red);
 		block.spawn();
+		
 		i++;
 		
+		
 	}
+	
 	
 	public boolean checkBottom()
 	{
@@ -74,7 +67,7 @@ public class GameArea extends JPanel
 		return true;
 		
 	}
-	private void drawBlock(Graphics g)
+	private void drawBlock(Graphics g,TetrisBlock block)
 	{
 		Color c = block.getColor();
 		int h = block.getHeight();
@@ -114,13 +107,14 @@ public class GameArea extends JPanel
 				g.drawRect(row*gridCellSize,col*gridCellSize,gridCellSize,gridCellSize); //only outline is needed
 			}
 		}
-		//spawnBlock();
-		drawBlock(g);
+		
+		drawBlock(g,block);
+		for(TetrisBlock elem: fallenBlocks)
+		{
+			drawBlock(g,elem);
+		}
 		
 	}
-	public TetrisBlock getBlock()
-	{
-		return block;
-	}
+	
 	
 }
