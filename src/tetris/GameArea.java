@@ -12,8 +12,9 @@ public class GameArea extends JPanel
 	private  int gridColumns;
 	private  int gridCellSize;
 	private TetrisBlock block;
-	private List<TetrisBlock> fallenBlocks;
-	private int i=0;
+	
+
+	private Color[][] background;
 	
 	
 	public GameArea() {
@@ -24,22 +25,18 @@ public class GameArea extends JPanel
 		gridRows=20;
 		gridColumns=10;
 		gridCellSize=20;
-		fallenBlocks = new ArrayList<TetrisBlock>();
 		
+		background = new Color[gridRows][gridColumns];
 		
 	}
 	
 	public void spawnBlock()
 	{
-		if(i!=0)
-		{
-			fallenBlocks.add(block);
-		}
 		
+	
 		block = new TetrisBlock(new int[][]{{1,0},{1,0},{1,1}}, Color.red);
 		block.spawn();
 		
-		i++;
 		
 		
 	}
@@ -52,7 +49,7 @@ public class GameArea extends JPanel
 			return false;
 		}
 		
-		/*int[][] shape = block.getShape();
+		int[][] shape = block.getShape();
 		int w = block.getWidth();
 		int h = block.getHeight();
 		
@@ -61,16 +58,36 @@ public class GameArea extends JPanel
 				if (shape[row][col] != 0)
 				{
 					int x = col + block.getX();
-					int y = row + block.getY();
-					if(fallenBlocks[y][x] != null)}
+					int y = row + block.getY()+1;
+					if(y < 0)break;
+					if(background[y][x] != null)return false;
+					break;
+				}
 			}
-		}*/
+		}
 		return true;
 	}
 	
 	private boolean checkLeft()
 	{
 		if(block.getLeftEdge() == 0)return false;
+		
+		int[][] shape = block.getShape();
+		int w = block.getWidth();
+		int h = block.getHeight();
+		
+		for(int row = 0; row < h; row++) {
+			for(int col = 0; col < w; col--) {
+				if (shape[row][col] != 0)
+				{
+					int x = col + block.getX() - 1;
+					int y = row + block.getY();
+					if(y < 0)break;
+					if(background[y][x] != null)return false;
+					break;
+				}
+			}
+		}
 		
 		return true;
 	}
@@ -79,6 +96,23 @@ public class GameArea extends JPanel
 	{
 		if(block.getRightEdge() == gridColumns)return false;
 		
+		int[][] shape = block.getShape();
+		int w = block.getWidth();
+		int h = block.getHeight();
+		
+		for(int row = 0; row < h; row++) {
+			for(int col = w - 1; col >= 0; col--) {
+				if (shape[row][col] != 0)
+				{
+					int x = col + block.getX() + 1;
+					int y = row + block.getY();
+					if(y < 0)break;
+					if(background[y][x] != null)return false;
+					break;
+				}
+			}
+		}
+		
 		return true;
 	}
 	
@@ -86,6 +120,7 @@ public class GameArea extends JPanel
 	{
 		if(checkBottom() == false) 
 			{
+			moveBlockToBackground();
 			return false;
 			}
 		
@@ -147,13 +182,62 @@ public class GameArea extends JPanel
 					int y = (block.getY()+row)*gridCellSize;
 					
 					
-					g.setColor(c);
-					g.fillRect(x, y, gridCellSize, gridCellSize); //fill shape is needed
-					g.setColor(Color.black);
-					g.drawRect(x, y, gridCellSize, gridCellSize);
+					drawGridSquare(g, c, x, y);
 				}
 			}
 		}
+	}
+	
+	private void moveBlockToBackground()
+	{
+		int [][] shape = block.getShape();
+		int h = block.getHeight();
+		int w = block.getWidth();
+		
+		int xPos = block.getX();
+		int yPos = block.getY();
+		
+		Color color = block.getColor();
+		
+		for (int r = 0; r < h; r++)
+		{
+			for(int c = 0; c < w; c++)
+			{
+				if (shape[r][c] ==1)
+				{
+					background[r + yPos][c + xPos] = color;
+				}
+			}
+		}
+	}
+	
+	private void drawBackground(Graphics g)
+	{
+		Color color;
+		
+		for(int r=0;r<gridRows;r++)
+		{
+			for(int c=0;c<gridColumns;c++)
+			{
+				color = background[r][c];
+				
+				if (color != null)
+				{
+					int x =c * gridCellSize;
+					int y = r * gridCellSize;
+					
+					drawGridSquare(g, color, x, y);
+				}
+			}
+		}
+	}
+	
+	private void drawGridSquare(Graphics g, Color color, int x, int y)
+	{
+		g.setColor(color);
+		g.fillRect(x, y, gridCellSize, gridCellSize); //fill shape is needed
+		g.setColor(Color.black);
+		g.drawRect(x, y, gridCellSize, gridCellSize);
 	}
 	
 	@Override
@@ -169,11 +253,9 @@ public class GameArea extends JPanel
 			}
 		}
 		
+		drawBackground(g);
 		drawBlock(g,block);
-		for(TetrisBlock elem: fallenBlocks)
-		{
-			drawBlock(g,elem);
-		}
+		
 		
 	}
 	
