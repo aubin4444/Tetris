@@ -76,18 +76,7 @@ public class GameArea extends JPanel
 							int large = elem.getY();
 							int width = elem.getWidth();
 							int hight=elem.getHeight();
-							System.out.println(width);
-							//System.out.println(haut);
-							//System.out.println(large);
-							System.out.println(hight);
-							/*System.out.println(gs[0][0]);
-							System.out.println(gs[0][1]);
-							//System.out.println(gs[0][2]);
-							System.out.println(gs[1][0]);
-							System.out.println(gs[1][1]);
-							//System.out.println(gs[1][2]);
-						System.out.println(gs[2][0]);
-							System.out.println(gs[2][1]);*/
+							
 							
 								for(int ii=0;ii<width;ii++) //On regarde pour chaque 
 								{
