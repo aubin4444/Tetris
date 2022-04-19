@@ -47,12 +47,14 @@ public class GameArea extends JPanel
 	
 	public boolean checkBottom()
 	{
-		if(block.getY()+block.getHeight()==20) //if it touch the bottom
-		{
-			return false;
-		}
 		
-		/*int[][] shape = block.getShape();
+		if(block.getY()+block.getHeight()==20) //if it touches the bottom
+		{
+			
+			return false;
+		}else {
+		
+		int[][] shape = block.getShape();
 		int w = block.getWidth();
 		int h = block.getHeight();
 		
@@ -61,11 +63,52 @@ public class GameArea extends JPanel
 				if (shape[row][col] != 0)
 				{
 					int x = col + block.getX();
-					int y = row + block.getY();
-					if(fallenBlocks[y][x] != null)}
+					int y = row + block.getY()+1;
+					if(y<0) break;
+					//if(fallenBlocks[y][x] != null) return false;
+					//break;
+					if(fallenBlocks.size()>0)
+					{
+						for(TetrisBlock elem: fallenBlocks)
+						{
+							int[][] gs=elem.getShape();
+							int haut = elem.getX();
+							int large = elem.getY();
+							int width = elem.getWidth();
+							int hight=elem.getHeight();
+							System.out.println(width);
+							//System.out.println(haut);
+							//System.out.println(large);
+							System.out.println(hight);
+							/*System.out.println(gs[0][0]);
+							System.out.println(gs[0][1]);
+							//System.out.println(gs[0][2]);
+							System.out.println(gs[1][0]);
+							System.out.println(gs[1][1]);
+							//System.out.println(gs[1][2]);
+						System.out.println(gs[2][0]);
+							System.out.println(gs[2][1]);*/
+							
+								for(int ii=0;ii<width;ii++) //On regarde pour chaque 
+								{
+									if(gs[0][ii]==1)
+									{
+										int x1 = (haut+ii);
+										int y1 = (large);
+										if(x==x1 && y==y1)
+										{
+											return false;
+										}
+									}
+								}
+							
+						}
+					}
+				}
 			}
-		}*/
+		}
 		return true;
+		}
 	}
 	
 	private boolean checkLeft()

@@ -5,7 +5,7 @@ public class TetrisBlock {
 
 	private int[][] shape;
 	private Color color;
-	private int x,y;
+	private int  x,y;
 	private int [][][] shapes;
 	private int currentRotation;
 	
